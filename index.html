@@ -80,18 +80,21 @@ function login() {
         setTimeout(() => {
             runCommand('Login realizado com sucesso!');
             document.getElementById('panel').style.display = 'block';
+            enterGame(); // inicia automaticamente após login
         }, 1500);
-    } else { alert('Preencha usuário e senha'); }
+    } else { 
+        alert('Preencha usuário e senha'); 
+    }
 }
 
 function enterGame() {
     runCommand('Iniciando entrada no Free Fire...');
-    let width = 0;
     progressBar.style.width = '0%';
     progressBar.textContent = '0%';
 
+    let width = 0;
     let interval = setInterval(() => {
-        width += Math.floor(Math.random() * 8) + 5;
+        width += Math.floor(Math.random() * 15) + 10; // sobe mais rápido
         if(width > 100) width = 100;
         progressBar.style.width = width + '%';
         progressBar.textContent = width + '%';
@@ -103,14 +106,16 @@ function enterGame() {
 
         if(width >= 100) {
             clearInterval(interval);
-            runCommand('Conexão concluída! O jogo será aberto.');
-
+            runCommand('Conexão concluída! Entrando direto no jogo...');
             setTimeout(() => {
-                if(device === "Android") { window.location.href = 'intent://com.dts.freefireth#Intent;scheme=freefire;package=com.dts.freefireth;end'; }
-                else { window.open('https://ff.garena.com/', '_blank'); }
-            }, 1500);
+                if(device === "Android") { 
+                    window.location.href = 'intent://com.dts.freefireth#Intent;scheme=freefire;package=com.dts.freefireth;end'; 
+                } else { 
+                    window.open('https://ff.garena.com/', '_blank'); 
+                }
+            }, 1000);
         }
-    }, 600);
+    }, 400);
 }
 
 // PWA install
@@ -122,4 +127,4 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 </script>
 </body>
-  </html>
+</html>
