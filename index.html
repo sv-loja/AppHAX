@@ -80,7 +80,7 @@ function login() {
         setTimeout(() => {
             runCommand('Login realizado com sucesso!');
             document.getElementById('panel').style.display = 'block';
-            enterGame(); // inicia automaticamente após login
+            // agora NÃO chama enterGame aqui
         }, 1500);
     } else { 
         alert('Preencha usuário e senha'); 
@@ -94,7 +94,7 @@ function enterGame() {
 
     let width = 0;
     let interval = setInterval(() => {
-        width += Math.floor(Math.random() * 15) + 10; // sobe mais rápido
+        width += Math.floor(Math.random() * 15) + 10; 
         if(width > 100) width = 100;
         progressBar.style.width = width + '%';
         progressBar.textContent = width + '%';
@@ -127,4 +127,4 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 </script>
 </body>
-</html>
+        </html>
