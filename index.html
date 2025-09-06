@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Painel Hacker Free Fire</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<style>
+body { 
+    background: #0b0b0b; 
+    color: #00ff00; 
+    font-family: monospace; 
+    text-align:center; 
+    margin:0; 
+    padding:0; 
+}
+h1 { margin-top: 20px; text-shadow: 0 0 5px lime; font-size: 2em; }
+input, button { font-family: monospace; font-size: 1.2em; margin: 8px; padding: 15px; border-radius: 8px; }
+input { width: 250px; background: black; color: lime; border: 2px solid lime; text-shadow: 0 0 3px lime; }
+button { background: black; color: lime; border: 2px solid lime; cursor: pointer; text-shadow: 0 0 3px lime; }
+button:hover { background: lime; color: black; }
+#console { background: black; border: 2px solid lime; width: 90%; max-width: 800px; margin: 20px auto; padding: 20px; text-align:left; height: 400px; overflow-y: auto; box-shadow: 0 0 10px lime; font-size: 1em; }
+.progress-container { width: 90%; max-width:800px; height: 30px; border: 2px solid lime; margin: 20px auto; background: black; box-shadow: 0 0 5px lime; border-radius: 5px; }
+.progress-bar { width: 0%; height: 100%; background: lime; text-align:center; color:black; line-height:30px; text-shadow: none; border-radius: 5px; }
+#panel button { width: 200px; }
+</style>
+</head>
+<body>
+<h1>Painel Hacker Free Fire</h1>
+
+<div id="login">
+    <input type="text" id="user" placeholder="Usuário"><br>
+    <input type="password" id="pass" placeholder="Senha"><br>
+    <button onclick="login()">Login</button>
+</div>
+
+<div id="panel" style="display:none;">
+    <button onclick="runCommand('Aim Close Head ativado')">Aim Close Head</button><br>
+    <button onclick="runCommand('Macro ativado')">Macro</button><br>
+    <button onclick="runCommand('Regedit ativado')">Regedit</button><br>
+    <button onclick="runCommand('Bypass OB50 ativado')">Bypass OB50</button><br>
+    <button onclick="runCommand('Cross Gloo Wall ativado')">Cross Gloo Wall</button><br>
+    <button id="skarletBtn" onclick="runCommand('Skarlet ativado')">Skarlet (iOS)</button><br>
+    <button onclick="enterGame()">Entrar no Free Fire</button>
+</div>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progress-bar">0%</div>
+</div>
+
+<div id="console">Console:</div>
+
+<audio id="click-sound" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
+
+<script>
+const consoleDiv = document.getElementById('console');
+const progressBar = document.getElementById('progress-bar');
+const clickSound = document.getElementById('click-sound');
+
+let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+let device = /android/i.test(userAgent) ? "Android" : (/iPad|iPhone|iPod/.test(userAgent) ? "iOS" : "Desconhecido");
+runCommand("Dispositivo detectado: " + device);
+
+if(device !== "iOS") { document.getElementById('skarletBtn').style.display = 'none'; }
+
+function runCommand(msg) {
+    clickSound.play();
+    let p = document.createElement('p');
+    p.textContent = ">> " + msg;
+    consoleDiv.appendChild(p);
+    consoleDiv.scrollTop = consoleDiv.scrollHeight;
+}
+
+function login() {
+    let user = document.getElementById('user').value;
+    let pass = document.getElementById('pass').value;
+    if(user && pass){
+        runCommand('Conectando ao Free Fire...');
+        document.getElementById('login').style.display = 'none';
+        setTimeout(() => {
+            runCommand('Login realizado com sucesso!');
+            document.getElementById('panel').style.display = 'block';
+        }, 1500);
+    } else { alert('Preencha usuário e senha'); }
+}
+
+function enterGame() {
+    runCommand('Iniciando entrada no Free Fire...');
+    let width = 0;
+    progressBar.style.width = '0%';
+    progressBar.textContent = '0%';
+
+    let interval = setInterval(() => {
+        width += Math.floor(Math.random() * 8) + 5;
+        if(width > 100) width = 100;
+        progressBar.style.width = width + '%';
+        progressBar.textContent = width + '%';
+        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+
+        if(width === 30) runCommand('Conectando aos servidores do Free Fire...');
+        if(width === 60) runCommand('Autenticação em andamento...');
+        if(width === 90) runCommand('Finalizando conexão...');
+
+        if(width >= 100) {
+            clearInterval(interval);
+            runCommand('Conexão concluída! O jogo será aberto.');
+
+            setTimeout(() => {
+                if(device === "Android") { window.location.href = 'intent://com.dts.freefireth#Intent;scheme=freefire;package=com.dts.freefireth;end'; }
+                else { window.open('https://ff.garena.com/', '_blank'); }
+            }, 1500);
+        }
+    }, 600);
+}
+
+// PWA install
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    runCommand("Clique no menu do navegador e selecione 'Adicionar à tela inicial' para instalar como app.");
+});
+</script>
+</body>
+  </html>
