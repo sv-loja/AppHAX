@@ -23,6 +23,58 @@ button:hover { background: lime; color: black; }
 .progress-container { width: 90%; max-width:800px; height: 30px; border: 2px solid lime; margin: 20px auto; background: black; box-shadow: 0 0 5px lime; border-radius: 5px; }
 .progress-bar { width: 0%; height: 100%; background: lime; text-align:center; color:black; line-height:30px; text-shadow: none; border-radius: 5px; }
 #panel button { width: 200px; }
+
+/* Switch toggle */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin: 8px;
+  vertical-align: middle;
+  font-size: 1.2em;
+  cursor: pointer;
+  user-select: none;
+  color: lime;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  border: 2px solid lime;
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: lime;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: lime;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
 </style>
 </head>
 <body>
@@ -35,12 +87,36 @@ button:hover { background: lime; color: black; }
 </div>
 
 <div id="panel" style="display:none;">
-    <button onclick="runCommand('Aim Close Head ativado')">Aim Close Head</button><br>
-    <button onclick="runCommand('Macro ativado')">Macro</button><br>
-    <button onclick="runCommand('Regedit ativado')">Regedit</button><br>
-    <button onclick="runCommand('Bypass OB50 ativado')">Bypass OB50</button><br>
-    <button onclick="runCommand('Cross Gloo Wall ativado')">Cross Gloo Wall</button><br>
-    <button id="skarletBtn" onclick="runCommand('Skarlet ativado')">Skarlet (iOS)</button><br>
+    <label class="switch">
+      <input type="checkbox" onchange="toggleFeature(this, 'Aim Close Head')">
+      <span class="slider"></span>
+      Aim Close Head
+    </label><br>
+    <label class="switch">
+      <input type="checkbox" onchange="toggleFeature(this, 'Macro')">
+      <span class="slider"></span>
+      Macro
+    </label><br>
+    <label class="switch">
+      <input type="checkbox" onchange="toggleFeature(this, 'Regedit')">
+      <span class="slider"></span>
+      Regedit
+    </label><br>
+    <label class="switch">
+      <input type="checkbox" onchange="toggleFeature(this, 'Bypass OB50')">
+      <span class="slider"></span>
+      Bypass OB50
+    </label><br>
+    <label class="switch">
+      <input type="checkbox" onchange="toggleFeature(this, 'Cross Gloo Wall')">
+      <span class="slider"></span>
+      Cross Gloo Wall
+    </label><br>
+    <label class="switch" id="skarletSwitch">
+      <input type="checkbox" onchange="toggleFeature(this, 'Skarlet (iOS)')">
+      <span class="slider"></span>
+      Skarlet (iOS)
+    </label><br>
     <button onclick="enterGame()">Entrar no Free Fire</button>
 </div>
 
@@ -61,7 +137,7 @@ let userAgent = navigator.userAgent || navigator.vendor || window.opera;
 let device = /android/i.test(userAgent) ? "Android" : (/iPad|iPhone|iPod/.test(userAgent) ? "iOS" : "Desconhecido");
 runCommand("Dispositivo detectado: " + device);
 
-if(device !== "iOS") { document.getElementById('skarletBtn').style.display = 'none'; }
+if(device !== "iOS") { document.getElementById('skarletSwitch').style.display = 'none'; }
 
 function runCommand(msg) {
     clickSound.play();
@@ -69,6 +145,14 @@ function runCommand(msg) {
     p.textContent = ">> " + msg;
     consoleDiv.appendChild(p);
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
+}
+
+function toggleFeature(checkbox, featureName) {
+    if(checkbox.checked) {
+        runCommand(featureName + ' ativado');
+    } else {
+        runCommand(featureName + ' desativado');
+    }
 }
 
 function login() {
@@ -80,7 +164,6 @@ function login() {
         setTimeout(() => {
             runCommand('Login realizado com sucesso!');
             document.getElementById('panel').style.display = 'block';
-            // agora NÃO chama enterGame aqui
         }, 1500);
     } else { 
         alert('Preencha usuário e senha'); 
@@ -127,4 +210,4 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 </script>
 </body>
-      </html>
+    </html>
