@@ -22,19 +22,17 @@ button:hover { background: lime; color: black; }
 #console { background: black; border: 2px solid lime; width: 90%; max-width: 800px; margin: 20px auto; padding: 20px; text-align:left; height: 400px; overflow-y: auto; box-shadow: 0 0 10px lime; font-size: 1em; }
 .progress-container { width: 90%; max-width:800px; height: 30px; border: 2px solid lime; margin: 20px auto; background: black; box-shadow: 0 0 5px lime; border-radius: 5px; }
 .progress-bar { width: 0%; height: 100%; background: lime; text-align:center; color:black; line-height:30px; text-shadow: none; border-radius: 5px; }
-#panel button { width: 200px; }
+#panel button { width: 220px; font-size: 1.3em; }
 
-/* Switch toggle */
+/* Switch toggle ajustado */
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-  margin: 8px;
-  vertical-align: middle;
-  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 12px auto;
+  width: fit-content;
+  font-size: 1.3em;
   cursor: pointer;
-  user-select: none;
   color: lime;
 }
 
@@ -45,15 +43,14 @@ button:hover { background: lime; color: black; }
 }
 
 .slider {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
+  width: 60px;
+  height: 34px;
   background-color: black;
   border: 2px solid lime;
   border-radius: 34px;
   transition: 0.4s;
+  margin-right: 12px;
 }
 
 .slider:before {
@@ -91,32 +88,33 @@ input:checked + .slider:before {
       <input type="checkbox" onchange="toggleFeature(this, 'Aim Close Head')">
       <span class="slider"></span>
       Aim Close Head
-    </label><br>
+    </label>
     <label class="switch">
       <input type="checkbox" onchange="toggleFeature(this, 'Macro')">
       <span class="slider"></span>
       Macro
-    </label><br>
+    </label>
     <label class="switch">
       <input type="checkbox" onchange="toggleFeature(this, 'Regedit')">
       <span class="slider"></span>
       Regedit
-    </label><br>
+    </label>
     <label class="switch">
       <input type="checkbox" onchange="toggleFeature(this, 'Bypass OB50')">
       <span class="slider"></span>
       Bypass OB50
-    </label><br>
+    </label>
     <label class="switch">
       <input type="checkbox" onchange="toggleFeature(this, 'Cross Gloo Wall')">
       <span class="slider"></span>
       Cross Gloo Wall
-    </label><br>
+    </label>
     <label class="switch" id="skarletSwitch">
       <input type="checkbox" onchange="toggleFeature(this, 'Skarlet (iOS)')">
       <span class="slider"></span>
       Skarlet (iOS)
-    </label><br>
+    </label>
+    <br>
     <button onclick="enterGame()">Entrar no Free Fire</button>
 </div>
 
@@ -210,4 +208,4 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 </script>
 </body>
-    </html>
+        </html>
